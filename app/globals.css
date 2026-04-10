@@ -78,6 +78,7 @@
   --color-dark-800: #1e2230;
   --color-gray-100: #cbd5e1;
   --bg-pattern: url("/images/pattern.webp");
+  --font-bebas-neue: var(--bebas-neue);
 }
 
 :root {
@@ -239,7 +240,8 @@
 
   /* Book List */
   .book-list {
-    @apply mt-10 flex flex-wrap gap-5 max-xs:justify-between xs:gap-10;
+    @apply mt-10 grid gap-5 xs:gap-10;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }
 
   /* Book Overview */
