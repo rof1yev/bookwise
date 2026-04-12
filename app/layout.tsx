@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
 
 const bebasNeueFont = Bebas_Neue({
   subsets: ["latin"],
@@ -38,7 +39,10 @@ export default function RootLayout({
         bebasNeueFont.variable,
       )}
     >
-      <body>{children}</body>
+      <body>
+        <Toaster richColors />
+        {children}
+      </body>
     </html>
   );
 }

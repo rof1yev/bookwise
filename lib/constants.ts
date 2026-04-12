@@ -12,6 +12,8 @@ export const navigationLinks = [
   },
 ];
 
+export const FILE_IMAGE_MAX_SIZE = 5 * 1024 * 1024;
+
 export const adminSideBarLinks = [
   {
     img: "/icons/admin/home.svg",

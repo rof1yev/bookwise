@@ -28,3 +28,8 @@ interface BookListProps {
   books: Book[];
   containerClassName?: string;
 }
+
+interface ImageUploadProps {
+  value?: string;
+  onChange?: (url: string) => void;
+}
