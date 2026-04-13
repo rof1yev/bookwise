@@ -19,11 +19,11 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FIELD_NAMES, FIELD_TYPES } from "@/lib/constants";
 import ImageUpload from "./image-upload";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface AuthFormProps<T extends FieldValues> {
   type: "SIGN_IN" | "SIGN_UP";
@@ -38,6 +38,8 @@ const AuthForm = <T extends FieldValues>({
   defaultValues,
   onSubmit,
 }: AuthFormProps<T>) => {
+  const router = useRouter();
+
   const isSignIn = type === "SIGN_IN";
 
   const form: UseFormReturn<T> = useForm({
@@ -46,19 +48,20 @@ const AuthForm = <T extends FieldValues>({
   });
 
   const handleSubmit: SubmitHandler<T> = async (data) => {
-    toast.success("Successfully uploaded!");
-    try {
-      const res = await onSubmit(data);
+    const result = await onSubmit(data);
 
-      if (!res.success) {
-        toast.error(res.error || "Something went wrong");
-        return;
-      }
+    if (result.success) {
+      toast.success("Successfully", {
+        description: isSignIn
+          ? "You have successfully singed in."
+          : "You have successfully signed up.",
+      });
 
-      toast.success("Successfully!");
-    } catch (err) {
-      console.error(err);
-      toast.error("Server error");
+      router.push("/");
+    } else {
+      toast.error("Something went wrong", {
+        description: result.error || "An error occurred.",
+      });
     }
   };
 

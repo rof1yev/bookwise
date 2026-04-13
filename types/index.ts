@@ -33,3 +33,11 @@ interface ImageUploadProps {
   value?: string;
   onChange?: (url: string) => void;
 }
+
+interface AuthCredentials {
+  fullName: string;
+  email: string;
+  password: string;
+  universityId: number;
+  universityCard: string;
+}

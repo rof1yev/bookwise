@@ -3,6 +3,8 @@ import { IBM_Plex_Sans, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/lib/auth";
 
 const bebasNeueFont = Bebas_Neue({
   subsets: ["latin"],
@@ -24,25 +26,28 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
-    <html
-      lang="en"
-      className={cn(
-        "h-full",
-        "antialiased",
-        ibmPlexSansFont.variable,
-        bebasNeueFont.variable,
-      )}
-    >
-      <body>
-        <Toaster richColors />
-        {children}
-      </body>
-    </html>
+    <SessionProvider session={session}>
+      <html
+        lang="en"
+        className={cn(
+          "h-full",
+          "antialiased",
+          ibmPlexSansFont.variable,
+          bebasNeueFont.variable,
+        )}
+      >
+        <body>
+          <Toaster richColors />
+          {children}
+        </body>
+      </html>
+    </SessionProvider>
   );
 }

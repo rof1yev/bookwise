@@ -8,6 +8,7 @@ const config = {
       uploadUrl: process.env.NEXT_PUBLIC_IMAGEKIT_UPLOAD_URL,
       folderName: process.env.NEXT_PUBLIC_IMAGEKIT_FOLDER_NAME,
     },
+    databaseUrl: process.env.DATABASE_URL,
   },
 };
 

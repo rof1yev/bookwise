@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import { ReactNode } from "react";
 
-const RootLayout = ({ children }: { children: ReactNode }) => {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <main className="root-container">
       <div className="mx-auto max-w-7xl">
