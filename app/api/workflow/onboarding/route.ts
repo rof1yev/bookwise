@@ -1,4 +1,8 @@
+import { db } from "@/database/drizzle";
+import { users } from "@/database/schema";
+import { sendEmail } from "@/lib/workflow";
 import { serve } from "@upstash/workflow/nextjs";
+import { eq } from "drizzle-orm";
 
 type InitialData = {
   email: string;
@@ -16,7 +20,11 @@ export const { POST } = serve<InitialData>(async (context) => {
 
   // Welcome Email
   await context.run("new-signup", async () => {
-    await sendEmail(`Welcome ${fullName}!`, email);
+    await sendEmail({
+      email,
+      subject: "Welcome to the paltform",
+      message: `Welcome ${fullName}`,
+    });
   });
 
   await context.sleep("wait-for-3-days", ONE_DAY_IN_MS);
@@ -28,11 +36,19 @@ export const { POST } = serve<InitialData>(async (context) => {
 
     if (state === "non-active") {
       await context.run("send-email-non-active", async () => {
-        await sendEmail(`Hey ${fullName}, we miss you!`, email);
+        await sendEmail({
+          email,
+          subject: "Are you still there?",
+          message: `He ${fullName}, we miss you!`,
+        });
       });
     } else if (state === "active") {
       await context.run("send-email-active", async () => {
-        await sendEmail(`Welcome back ${fullName}!`, email);
+        await sendEmail({
+          email,
+          subject: "Welcome back!",
+          message: `Welcome back ${fullName}`,
+        });
       });
     }
 
@@ -40,12 +56,21 @@ export const { POST } = serve<InitialData>(async (context) => {
   }
 });
 
-async function sendEmail(message: string, email: string) {
-  // Implement email sending logic here
-  console.log(`Sending ${message} email to ${email}`);
-}
-
 const getUserState = async (email: string): Promise<UserState> => {
-  // Implement user state logic here
-  return "non-active";
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1);
+
+  if (user.length === 0) return "non-active";
+
+  const lastActivityDate = new Date(user[0].lastActivityDate!);
+  const now = new Date();
+  const timeDifference = now.getTime() - lastActivityDate.getTime();
+
+  if (timeDifference > THREE_DAYS_IN_MS && timeDifference <= THIRTY_DAYS_IN_MS)
+    return "non-active";
+
+  return "active";
 };
