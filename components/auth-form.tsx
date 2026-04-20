@@ -11,12 +11,7 @@ import {
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
 import Link from "next/link";
@@ -24,6 +19,9 @@ import { FIELD_NAMES, FIELD_TYPES } from "@/lib/constants";
 import ImageUpload from "./image-upload";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { EyeIcon, EyeOffIcon, Loader2Icon } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 interface AuthFormProps<T extends FieldValues> {
   type: "SIGN_IN" | "SIGN_UP";
@@ -39,29 +37,44 @@ const AuthForm = <T extends FieldValues>({
   onSubmit,
 }: AuthFormProps<T>) => {
   const router = useRouter();
+  const { update } = useSession();
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isHidden, setIsHidden] = useState<boolean>(true);
 
   const isSignIn = type === "SIGN_IN";
 
   const form: UseFormReturn<T> = useForm({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<T>,
+    mode: "onSubmit",
   });
 
   const handleSubmit: SubmitHandler<T> = async (data) => {
-    const result = await onSubmit(data);
+    setIsSubmitting(true);
 
-    if (result.success) {
-      toast.success("Successfully", {
-        description: isSignIn
-          ? "You have successfully singed in."
-          : "You have successfully signed up.",
-      });
+    try {
+      const result = await onSubmit(data);
+      if (result.success) {
+        toast.success("Successfully", {
+          description: isSignIn
+            ? "You have successfully singed in."
+            : "You have successfully signed up.",
+        });
 
-      router.push("/");
-    } else {
+        await update();
+        router.push("/");
+      } else
+        toast.error("Something went wrong", {
+          description: result.error || "An error occurred.",
+        });
+    } catch (error) {
+      console.error("AUTH FORM ERROR: ", error);
       toast.error("Something went wrong", {
-        description: result.error || "An error occurred.",
+        description: "An error occurred.",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -97,19 +110,39 @@ const AuthForm = <T extends FieldValues>({
                   {field.name === "universityCard" ? (
                     <ImageUpload onChange={field.onChange} />
                   ) : (
-                    <Input
-                      {...field}
-                      id="form-rhf-demo-title"
-                      aria-invalid={fieldState.invalid}
-                      autoComplete="off"
-                      required
-                      type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]}
-                      className="form-input bg-[#232839]"
-                    />
-                  )}
-
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        id="form-rhf-demo-title"
+                        aria-invalid={fieldState.invalid}
+                        autoComplete="off"
+                        required
+                        min={field.name === "universityId" ? 0 : undefined}
+                        type={
+                          field.name === "password"
+                            ? !isHidden
+                              ? "text"
+                              : "password"
+                            : FIELD_TYPES[
+                                field.name as keyof typeof FIELD_TYPES
+                              ]
+                        }
+                        className="form-input bg-[#232839]"
+                      />
+                      {field.name === "password" && (
+                        <button
+                          type="button"
+                          onClick={() => setIsHidden((prev) => !prev)}
+                          className="absolute right-5 top-1/2 -translate-y-1/2 cursor-pointer hover:opacity-70"
+                        >
+                          {isHidden ? (
+                            <EyeIcon size={18} />
+                          ) : (
+                            <EyeOffIcon size={18} />
+                          )}
+                        </button>
+                      )}
+                    </div>
                   )}
                 </Field>
               )}
@@ -122,8 +155,10 @@ const AuthForm = <T extends FieldValues>({
           <Button
             type="submit"
             form="form-rhf-demo"
-            className="form-btn text-dark-300"
+            className="form-btn text-dark-300 disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={isSubmitting}
           >
+            {isSubmitting && <Loader2Icon className="animate-spin" />}
             {isSignIn ? "Sign In" : "Sign Up"}
           </Button>
         </Field>

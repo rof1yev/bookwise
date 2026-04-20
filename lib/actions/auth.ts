@@ -28,7 +28,7 @@ export const signInWithCredentials = async (
       redirect: false,
     });
 
-    if (!result?.error) return { success: false, error: result?.error };
+    if (result?.error) return { success: false, error: result?.error };
 
     return { success: true };
   } catch (error) {

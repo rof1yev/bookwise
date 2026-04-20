@@ -55,6 +55,9 @@ const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
       onChange?.(data.url);
     } catch (err) {
       console.error(err);
+      toast.error("Error", {
+        description: "We couldn't upload the image. Please try again later.",
+      });
     } finally {
       setUploading(false);
     }
@@ -82,6 +85,7 @@ const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
               className="object-cover"
             />
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 handleRemove();
@@ -93,7 +97,7 @@ const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
           </>
         ) : (
           <div className="flex flex-col items-center text-center px-4">
-            <button className="upload-btn">
+            <button className="upload-btn" type="button">
               <Image
                 src="/icons/upload.svg"
                 alt="upload icon"

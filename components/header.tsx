@@ -11,6 +11,8 @@ const Header = () => {
   const pathname = usePathname();
   const { data } = useSession();
 
+  const name = data?.user?.name ?? "IN";
+
   return (
     <header className="flex justify-between gap-5 w-full py-5 px-8">
       <Link href="/" className="flex gap-2">
@@ -35,7 +37,7 @@ const Header = () => {
             href="/my-profile"
             className="flex items-center gap-2 text-light-100"
           >
-            <Avatar src="" fallback={getInitials(data?.user?.name || "IN")} />
+            <Avatar src="" fallback={getInitials(name)} />
             <span>{data?.user?.name}</span>
           </Link>
         </li>

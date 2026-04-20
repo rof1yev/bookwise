@@ -4,7 +4,7 @@ import AuthForm from "@/components/auth-form";
 import { signInWithCredentials } from "@/lib/actions/auth";
 import { SignInSchema } from "@/lib/validations";
 
-const SignIn = () => {
+const SignInPage = () => {
   return (
     <AuthForm
       type="SIGN_IN"
@@ -15,4 +15,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignInPage;

@@ -5,7 +5,11 @@ export const SignUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(32),
   universityId: z.coerce.number(),
-  universityCard: z.string().url("University Card is required"),
+  universityCard: z
+    .string()
+    .trim()
+    .min(1, "University Card is required")
+    .url("Invalid image URL"),
 });
 
 export const SignInSchema = z.object({
