@@ -10,12 +10,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/file-upload";
 import ColorPicker from "../color-picker";
+import { createBook } from "@/lib/admin/actions/book";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface Props extends Partial<Book> {
   type?: "create" | "update";
 }
 
 const BookForm = ({ type, ...book }: Props) => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof bookSchema>>({
     resolver: zodResolver(bookSchema),
     defaultValues: {
@@ -33,7 +38,14 @@ const BookForm = ({ type, ...book }: Props) => {
   });
 
   const onSubmit = async (values: z.infer<typeof bookSchema>) => {
-    console.log(values);
+    const result = await createBook(values);
+
+    if (result.success) {
+      toast.success("Successfully", { description: result.message });
+      router.push(`/admin/books/${result.data?.id}`);
+    } else {
+      toast.error("Error", { description: result.message });
+    }
   };
 
   return (
@@ -181,6 +193,7 @@ const BookForm = ({ type, ...book }: Props) => {
                 accept="image/*"
                 folder="books/covers"
                 value={field.value}
+                onChange={field.onChange}
               />
             </Field>
           )}
@@ -242,7 +255,7 @@ const BookForm = ({ type, ...book }: Props) => {
               className="flex flex-col gap-1"
             >
               <FieldLabel className="text-base font-normal text-dark-500">
-                Book Image
+                Book video
               </FieldLabel>
 
               <FileUpload
@@ -250,6 +263,7 @@ const BookForm = ({ type, ...book }: Props) => {
                 accept="video/*"
                 folder="books/videos"
                 value={field.value}
+                onChange={field.onChange}
               />
             </Field>
           )}

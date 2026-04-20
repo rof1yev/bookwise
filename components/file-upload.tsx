@@ -5,6 +5,7 @@ import { useCallback, useRef, useState } from "react";
 import config from "@/lib/config";
 import { XIcon } from "lucide-react";
 import { toast } from "sonner";
+import { MAX_IMAGE_SIZE, MAX_VIDEO_SIZE } from "@/lib/constants";
 
 interface FileUploadProps {
   type: "image" | "video";
@@ -19,9 +20,6 @@ const {
     imageKit: { publicKey, uploadUrl },
   },
 } = config;
-
-const MAX_IMAGE_SIZE = 20 * 1024 * 1024; // 20MB
-const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB
 
 const FileUpload = ({
   type,
@@ -137,7 +135,7 @@ const FileUpload = ({
                 src={fileUrl}
                 alt="uploaded"
                 fill
-                className="object-cover"
+                className="object-contain"
               />
             ) : (
               <video

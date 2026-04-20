@@ -8,6 +8,20 @@
       "when": 1776062049151,
       "tag": "0000_thick_supernaut",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1776701780484,
+      "tag": "0001_stale_aaron_stack",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1776702536489,
+      "tag": "0002_absent_madame_masque",
+      "breakpoints": true
     }
   ]
 }
