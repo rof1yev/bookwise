@@ -18,8 +18,6 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
     .limit(1)
     .then((res) => res[0]?.isAdmin === "ADMIN");
 
-  console.log("isAdmin:", isAdmin, "session:", session);
-
   if (!isAdmin) redirect("/");
 
   return (

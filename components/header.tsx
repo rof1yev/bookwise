@@ -14,7 +14,7 @@ const Header = () => {
   const name = data?.user?.name ?? "IN";
 
   return (
-    <header className="flex justify-between gap-5 w-full py-5 px-8">
+    <header className="flex justify-between gap-5 w-full py-5 sm:px-8">
       <Link href="/" className="flex gap-2">
         <Image src="/icons/logo.svg" alt="logo" width={40} height={40} />
         <span className="text-light-100 font-semibold text-2xl">BookWise</span>
@@ -38,7 +38,7 @@ const Header = () => {
             className="flex items-center gap-2 text-light-100"
           >
             <Avatar src="" fallback={getInitials(name)} />
-            <span>{data?.user?.name}</span>
+            <span className="hidden sm:block">{data?.user?.name}</span>
           </Link>
         </li>
       </ul>

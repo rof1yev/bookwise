@@ -1,12 +1,10 @@
-interface BookDetailsPageProps {
-  params: {
-    id: string;
-  };
-}
+const BooksDetailsPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const id = (await params).id;
 
-const BooksDetailsPage = async ({ params }: BookDetailsPageProps) => {
-  const { id } = await params;
-  
   return <div>BooksDetailsPage: {id}</div>;
 };
 

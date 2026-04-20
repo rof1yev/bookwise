@@ -22,8 +22,6 @@ export async function POST(req: Request) {
     }),
   });
 
-  console.log("res", res);
-
   if (!res.ok) {
     console.error("EmailJS error:", await res.text());
     return Response.json({ success: false }, { status: 500 });
