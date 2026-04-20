@@ -42,11 +42,25 @@ export const { POST } = serve<InitialData>(async (context) => {
   const { email, fullName } = context.requestPayload;
 
   // Welcome Email
-  await context.run("new-signup", async () => {
+  await context.run("welcome-email", async () => {
     await sendEmail({
       email,
-      subject: "Welcome to the paltform",
-      message: `Welcome ${fullName}`,
+      subject: "Welcome to the platform",
+      message: `
+        Welcome to BookWise 👋
+
+        Hi {{name}},
+
+        We’re really happy to have you on board 🚀
+
+        Your account has been successfully created and you’re now part of our platform.
+
+        If you have any questions, feel free to reach out anytime.
+
+        Welcome again — we’re excited to have you here!
+
+        — BookWise Team`,
+      name: fullName,
     });
   });
 
@@ -57,19 +71,49 @@ export const { POST } = serve<InitialData>(async (context) => {
   });
 
   if (state === "non-active") {
-    await context.run("send-email-non-active", async () => {
+    await context.run("inactive-email", async () => {
       await sendEmail({
         email,
         subject: "Are you still there?",
-        message: `He ${fullName}, we miss you!`,
+        message: `
+        We miss you 👀
+
+        Hi {{name}},
+
+        It’s been a while since your last activity on BookWise.
+
+        We noticed you haven’t used your account recently, and we just wanted to check in.
+
+        Come back and continue where you left off 🚀
+
+        If something didn’t work for you, let us know — we’d love to improve.
+
+        — BookWise Team
+        `,
+        name: fullName,
       });
     });
   } else if (state === "active") {
-    await context.run("send-email-active", async () => {
+    await context.run("active-email", async () => {
       await sendEmail({
         email,
         subject: "Welcome back!",
-        message: `Welcome back ${fullName}`,
+        message: `
+        Welcome back 🎉
+
+        Hi {{name}},
+
+        Great to see you again!
+
+        We’re glad you’re back on BookWise. Everything is waiting for you where you left off.
+
+        If you need any help getting started again, we’re here for you.
+
+        Let’s continue 🚀
+
+        — BookWise Team
+        `,
+        name: fullName,
       });
     });
   }

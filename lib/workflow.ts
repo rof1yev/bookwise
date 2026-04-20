@@ -1,5 +1,5 @@
 import { Client as WorkflowClient } from "@upstash/workflow";
-import { Client as QStashClient, resend } from "@upstash/qstash";
+import { Client as QStashClient } from "@upstash/qstash";
 import config from "./config";
 
 export const workflowClient = new WorkflowClient({
@@ -15,21 +15,23 @@ export const sendEmail = async ({
   email,
   subject,
   message,
+  name,
+  time = new Date().toISOString(),
 }: {
   email: string;
   subject: string;
   message: string;
+  name?: string;
+  time?: string;
 }) => {
   await qstashClient.publishJSON({
-    api: {
-      name: "email",
-      provider: resend({ token: config.env.resendToken! }),
-    },
+    url: `${config.env.prodApiEndpoint}/api/send-email`,
     body: {
-      from: "BookWise | @rof1yev <bookwise-rof1yev.vercel.app>",
-      to: [email],
+      email,
       subject,
-      html: message,
+      message,
+      name,
+      time,
     },
   });
 };
