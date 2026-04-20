@@ -8,7 +8,6 @@ export const workflowClient = new WorkflowClient({
 });
 
 export const qstashClient = new QStashClient({
-  baseUrl: config.env.upstash.qstashUrl,
   token: config.env.upstash.qstashToken,
 });
 
@@ -28,7 +27,7 @@ export const sendEmail = async ({
     },
     body: {
       from: "BookWise | @rof1yev <bookwise-rof1yev.vercel.app>",
-      to: email,
+      to: [email],
       subject,
       html: message,
     },
