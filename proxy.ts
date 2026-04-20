@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 const authRoutes = ["/sign-in", "/sign-up"];
-const protectedRoutes = ["/", "/dashboard", "/my-profile"];
+const protectedRoutes = ["/", "/admin", "/my-profile"];
 
 export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
