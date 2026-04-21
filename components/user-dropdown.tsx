@@ -87,7 +87,7 @@ const UserDropDown = ({ children }: { children: ReactNode }) => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuLabel>Admin</DropdownMenuLabel>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/admin")}>
             <LayoutDashboardIcon />
             Dashboard
             <DropdownMenuShortcut>⇧⌘D</DropdownMenuShortcut>
@@ -96,7 +96,7 @@ const UserDropDown = ({ children }: { children: ReactNode }) => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuLabel>All</DropdownMenuLabel>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/my-profile")}>
             <User2Icon />
             Profile
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
