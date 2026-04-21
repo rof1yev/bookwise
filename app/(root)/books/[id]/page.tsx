@@ -55,14 +55,14 @@ const BooksDetailsPage = async ({
             </div>
           </section>
         </div>
-      </div>
-      <section>
+      <section className="flex-1">
         <BookList
           title="Similar Books"
           books={similarBooks}
           containerClassName="mt-20"
         />
       </section>
+      </div>
     </>
   );
 };

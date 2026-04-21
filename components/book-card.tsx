@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import BookCover from "./book-cover";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "./ui/button";
 
@@ -15,22 +14,15 @@ const BookCard = ({
   isLoanedBook = false,
 }: Book) => {
   return (
-    <li className={cn(isLoanedBook && "xs:w-52 w-full")}>
-      <Link
-        href={`/books/${id}`}
-        className={cn(
-          "min:w-full",
-          isLoanedBook && "w-full flex flex-col items-center",
-        )}
-      >
-        <BookCover coverColor={coverColor} coverImage={coverUrl} className="full" />
+    <li className="xs:w-52 w-full">
+      <Link href={`/books/${id}`} className="w-full flex flex-col items-center">
+        <BookCover
+          coverColor={coverColor}
+          coverImage={coverUrl}
+          className="full"
+        />
 
-        <div
-          className={cn(
-            "mt-4 min-w-full",
-            !isLoanedBook && "xs:max-w-40 max-w-28",
-          )}
-        >
+        <div className="mt-4 w-full text-center">
           <p className="book-title">{title}</p>
           <p className="book-genre">{genre}</p>
         </div>
