@@ -4,10 +4,18 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 
-const Avatar = ({ src, fallback }: { src?: string; fallback: string }) => {
+const Avatar = ({
+  src,
+  fallback,
+  className,
+}: {
+  src?: string;
+  fallback: string;
+  className?: string;
+}) => {
   return (
-    <AvatarUI>
-      <AvatarImage src={src} />
+    <AvatarUI className={className}>
+      <AvatarImage src={src || "/images/placeholder-user.png"} />
       <AvatarFallback className="bg-amber-100">{fallback}</AvatarFallback>
     </AvatarUI>
   );
