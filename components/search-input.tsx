@@ -10,7 +10,8 @@ const SearchInput = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [value, setValue] = useState(searchParams.get("q") || "");
+  const initial = searchParams.get("q") || "";
+  const [value, setValue] = useState(initial);
 
   const debouncedValue = useDebounce(value, 500);
 
@@ -20,15 +21,19 @@ const SearchInput = () => {
     if (debouncedValue) params.set("q", debouncedValue);
     else params.delete("q");
 
-    router.push(`?${params.toString()}`);
+    router.replace(`?${params.toString()}`);
   }, [debouncedValue]);
+
+  useEffect(() => {
+    setValue(initial);
+  }, [initial]);
 
   return (
     <div className="search">
       <Input
+        value={value}
         placeholder="Search for books..."
         className="search-input pl-14"
-        value={value}
         onChange={(e) => setValue(e.target.value)}
       />
       <SearchIcon size={24} className="absolute left-6 text-primary" />

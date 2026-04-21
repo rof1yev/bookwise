@@ -1,6 +1,7 @@
 import BookList from "@/components/book-list";
 import FilterSelect from "@/components/filter-select";
 import SearchInput from "@/components/search-input";
+import SearchNotFound from "@/components/search-not-found";
 import { db } from "@/database/drizzle";
 import { books } from "@/database/schema";
 import { ilike, or, desc, asc, sql, and } from "drizzle-orm";
@@ -54,7 +55,12 @@ export default async function SearchPage({
           </h3>
           <FilterSelect />
         </div>
-        <BookList title="" books={filteredBooks} containerClassName="mt-20" />
+
+        {filteredBooks.length > 0 ? (
+          <BookList title="" books={filteredBooks} containerClassName="mt-20" />
+        ) : (
+          <SearchNotFound />
+        )}
       </section>
     </main>
   );
