@@ -60,3 +60,8 @@ interface PageParamsProps {
   params?: Record<string, string | undefined | unknown>;
   searchParams?: Record<string, string>;
 }
+
+interface BookBorrowParams {
+  userId: string;
+  bookId: string;
+}

@@ -7,6 +7,7 @@ import {
   timestamp,
   uuid,
   varchar,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 export const STATUS_ENUM = pgEnum("status", [
@@ -49,3 +50,27 @@ export const books = pgTable("books", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
+
+export const borrowRecords = pgTable(
+  "borrow_records",
+  {
+    id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
+    userId: uuid("user_id")
+      .references(() => users.id)
+      .notNull(),
+    bookId: uuid("book_id")
+      .references(() => books.id)
+      .notNull(),
+    borrowDate: timestamp("borrow_date", { withTimezone: true }).defaultNow(),
+    dueDate: date("due_date").notNull(),
+    returnDate: date("return_date"),
+    status: BORROW_STATUS_ENUM("status").default("BORROWED").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  },
+  (table) => ({
+    uniqueUserBook: uniqueIndex("unique_user_book").on(
+      table.userId,
+      table.bookId,
+    ),
+  }),
+);

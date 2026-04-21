@@ -1,8 +1,11 @@
 import Image from "next/image";
-import { Button } from "./ui/button";
 import BookCover from "./book-cover";
+import BorrowBookBtn from "./borrow-book-btn";
+import { db } from "@/database/drizzle";
+import { borrowRecords, users } from "@/database/schema";
+import { and, eq } from "drizzle-orm";
 
-const BookOverview = ({
+const BookOverview = async ({
   title,
   author,
   genre,
@@ -12,7 +15,40 @@ const BookOverview = ({
   description,
   coverColor,
   coverUrl,
+  id: bookId,
+  userId,
+  isLoanedBook,
 }: Book & { userId: string }) => {
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+
+  if (!user) return null;
+
+  const borrowEligibility = {
+    isEligible: availableCopies > 0 && user.status === "APPROVED",
+    message:
+      availableCopies <= 0
+        ? "Book is not available"
+        : "You are not eligible to borrow this book",
+  };
+
+  const [existingBorrow] = await db
+    .select()
+    .from(borrowRecords)
+    .where(
+      and(
+        eq(borrowRecords.userId, userId),
+        eq(borrowRecords.bookId, bookId),
+        eq(borrowRecords.status, "BORROWED"),
+      ),
+    )
+    .limit(1);
+
+  isLoanedBook = !!existingBorrow;
+
   return (
     <section className="book-overview">
       <div className="flex flex-1 flex-col gap-5">
@@ -43,10 +79,12 @@ const BookOverview = ({
 
         <p className="book-description">{description}</p>
 
-        <Button className="book-overview_btn w-fit md:w-full">
-          <Image src="/icons/book.svg" alt="Icon" width={20} height={20} />
-          <p className="font-bebas-neue text-xl text-dark-100">Borrow Book</p>
-        </Button>
+        <BorrowBookBtn
+          bookId={bookId}
+          userId={userId}
+          borrowEligibility={borrowEligibility}
+          isLoanedBook={isLoanedBook}
+        />
       </div>
 
       <div className="relative flex flex-1 justify-center">
