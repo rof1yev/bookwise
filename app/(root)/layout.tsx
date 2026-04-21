@@ -5,6 +5,7 @@ import { users } from "@/database/schema";
 import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   const session = await auth();
@@ -32,6 +33,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       <div className="mx-auto w-full max-w-7xl">
         <Header />
         <div className="mt-20 pb-20">{children}</div>
+        <Footer />
       </div>
     </main>
   );

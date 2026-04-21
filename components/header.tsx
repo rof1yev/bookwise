@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Avatar from "./avatar";
 import { useSession } from "next-auth/react";
+import UserDropDown from "./user-dropdown";
 
 const Header = () => {
   const pathname = usePathname();
@@ -23,23 +24,32 @@ const Header = () => {
       <ul className="flex flex-row items-center gap-8">
         <li>
           <Link
-            href="/library"
+            href="/"
             className={cn(
               "text-base cursor-pointer capitalize",
-              pathname === "/library" ? "text-light-200" : "text-light-100",
+              pathname === "/" ? "text-light-200" : "text-light-100",
             )}
           >
-            Library
+            Home
           </Link>
         </li>
         <li>
           <Link
-            href="/my-profile"
-            className="flex items-center gap-2 text-light-100"
+            href="/search"
+            className={cn(
+              "text-base cursor-pointer capitalize",
+              pathname === "/search" ? "text-light-200" : "text-light-100",
+            )}
           >
-            <Avatar src="" fallback={getInitials(name)} />
-            <span className="hidden sm:block">{data?.user?.name}</span>
+            Search
           </Link>
+        </li>
+        <li>
+          <UserDropDown>
+            <div className="flex items-center gap-2 cursor-pointer">
+              <Avatar src="" fallback={getInitials(name)} />
+            </div>
+          </UserDropDown>
         </li>
       </ul>
     </header>
