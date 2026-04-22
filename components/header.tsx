@@ -18,7 +18,7 @@ const Header = () => {
     <header className="flex justify-between gap-5 w-full py-5 sm:px-8">
       <Link href="/" className="flex gap-2">
         <Image src="/icons/logo.svg" alt="logo" width={40} height={40} />
-        <span className="text-light-100 font-semibold text-2xl">BookWise</span>
+        <span className="text-light-100 font-semibold text-2xl hidden sm:block">BookWise</span>
       </Link>
 
       <ul className="flex flex-row items-center gap-8">

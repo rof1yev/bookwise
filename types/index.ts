@@ -65,3 +65,25 @@ interface BookBorrowParams {
   userId: string;
   bookId: string;
 }
+
+interface BorrowRecords {
+  id: string;
+  userId: string;
+  bookId: string;
+  borrowDate: Date | null;
+  dueDate: string;
+  returnDate: string | null;
+  status: "BORROWED" | "RETURNED";
+  createdAt: Date | null;
+}
+
+interface BorrowingBooksListProps {
+  title: string;
+  data: { borrow_record: BorrowRecords; book: Book }[];
+  containerClassName?: string;
+}
+
+type GetBooksResponse = {
+  data: Book[];
+  totalCount: number;
+};

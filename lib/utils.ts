@@ -13,3 +13,13 @@ export const getInitials = (name: string): string => {
     .toUpperCase()
     .slice(0, 2);
 };
+
+export const createQueryString = (
+  params: URLSearchParams,
+  key: string,
+  value: string,
+) => {
+  const newParams = new URLSearchParams(params.toString());
+  newParams.set(key, value);
+  return newParams.toString();
+};
