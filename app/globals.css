@@ -241,7 +241,7 @@
   /* Book List */
   .book-list {
     @apply mt-10 grid gap-5 xs:gap-10;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
 
   .borrowing-books-list {
