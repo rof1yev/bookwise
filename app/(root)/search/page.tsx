@@ -1,9 +1,9 @@
 import BookList from "@/components/book-list";
 import FilterSelect from "@/components/filter-select";
+import Pagination from "@/components/pagination";
 import SearchInput from "@/components/search-input";
 import SearchNotFound from "@/components/search-not-found";
 import { getBooks } from "@/services/books";
-import Pagination from "./_components/pagination";
 
 export default async function SearchPage({
   searchParams,

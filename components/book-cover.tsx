@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import BookCoverSvg from "./book-cover-svg";
+import { BookCoverProps, BookCoverVariant } from "@/types";
 
 const variantStyles: Record<BookCoverVariant, string> = {
   extraSmall: "book-cover_extra_small",

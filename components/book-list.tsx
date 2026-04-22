@@ -1,3 +1,4 @@
+import { Book, BookListProps } from "@/types";
 import BookCard from "./book-card";
 
 const BookList = ({ title, books, containerClassName }: BookListProps) => {

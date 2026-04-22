@@ -1,34 +1,24 @@
-import Avatar from "@/components/avatar";
-import BookList from "@/components/book-list";
 import BorrowingBooksList from "@/components/borrowing-books-list";
 import EmptyState from "@/components/empty-state";
-import { db } from "@/database/drizzle";
-import { books, borrowRecords, users } from "@/database/schema";
+import Avatar from "@/components/avatar";
 import { auth } from "@/lib/auth";
 import { getInitials } from "@/lib/utils";
-import { eq } from "drizzle-orm";
 import { VerifiedIcon } from "lucide-react";
 import Image from "next/image";
+import { getBorrowedBooks } from "@/services/books";
+import { getCurrentUser } from "@/services/user";
 
 const MyProfilePage = async () => {
   const session = await auth();
 
-  const data = await db
-    .select()
-    .from(borrowRecords)
-    .innerJoin(books, eq(borrowRecords.bookId, books.id))
-    .where(eq(borrowRecords.userId, session?.user?.id as string));
+  const { data } = await getBorrowedBooks(session?.user?.id as string);
 
   const mergedData = data.map((item) => ({
     book: item.books,
     borrow_record: item.borrow_records,
   }));
 
-  const [user] = await db
-    .select()
-    .from(users)
-    .where(eq(users.id, session?.user?.id as string))
-    .limit(1);
+  const user = await getCurrentUser(session?.user?.id as string);
 
   return (
     <main className="profile w-full flex gap-10 relative">

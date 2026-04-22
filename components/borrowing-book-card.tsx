@@ -3,6 +3,7 @@
 import Image from "next/image";
 import BookCover from "./book-cover";
 import dayjs from "dayjs";
+import { Book, BorrowRecords } from "@/types";
 
 function hexToRgba(hex: string, opacity: number) {
   const r = parseInt(hex.slice(1, 3), 16);

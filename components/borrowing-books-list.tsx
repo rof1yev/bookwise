@@ -1,3 +1,4 @@
+import { BorrowingBooksListProps } from "@/types";
 import { BorrowingBookCard } from "./borrowing-book-card";
 
 const BorrowingBooksList = ({

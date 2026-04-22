@@ -4,6 +4,7 @@ import BorrowBookBtn from "./borrow-book-btn";
 import { db } from "@/database/drizzle";
 import { borrowRecords, users } from "@/database/schema";
 import { and, eq } from "drizzle-orm";
+import { Book } from "@/types";
 
 const BookOverview = async ({
   title,

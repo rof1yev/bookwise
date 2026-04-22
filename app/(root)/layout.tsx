@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { getCurrentUser } from "@/services/user";
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   const session = await auth();
@@ -13,13 +14,9 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
   after(async () => {
     if (!session?.user?.id) return;
 
-    const user = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, session?.user?.id as string))
-      .limit(1);
+    const user = await getCurrentUser(session.user.id);
 
-    if (user[0]?.lastActivityDate === new Date().toISOString().slice(0, 10))
+    if (user?.lastActivityDate === new Date().toISOString().slice(0, 10))
       return;
 
     await db
