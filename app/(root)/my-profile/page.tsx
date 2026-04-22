@@ -1,5 +1,6 @@
 import Avatar from "@/components/avatar";
 import BookList from "@/components/book-list";
+import BorrowingBooksList from "@/components/borrowing-books-list";
 import EmptyState from "@/components/empty-state";
 import { db } from "@/database/drizzle";
 import { books, borrowRecords, users } from "@/database/schema";
@@ -18,7 +19,10 @@ const MyProfilePage = async () => {
     .innerJoin(books, eq(borrowRecords.bookId, books.id))
     .where(eq(borrowRecords.userId, session?.user?.id as string));
 
-  const borrowedBooks = data.map((item) => item.books);
+  const mergedData = data.map((item) => ({
+    book: item.books,
+    borrow_record: item.borrow_records,
+  }));
 
   const [user] = await db
     .select()
@@ -29,7 +33,7 @@ const MyProfilePage = async () => {
   return (
     <main className="profile w-full flex gap-10 relative">
       <div className="w-full md:w-1/2 sticky top-10 h-fit">
-        <div className="gradient-blue pt-28 p-10 flex flex-col gap-8">
+        <div className="gradient-blue pt-28 p-10 flex flex-col gap-8 rounded-xl">
           <Image
             src="/images/profile-badge.png"
             alt="Badge"
@@ -82,10 +86,10 @@ const MyProfilePage = async () => {
         </div>
       </div>
       <section className="w-full md:w-1/2">
-        {borrowedBooks.length > 0 ? (
-          <BookList
+        {data.length > 0 ? (
+          <BorrowingBooksList
             title="Borrowed Books"
-            books={borrowedBooks}
+            data={mergedData}
             containerClassName="mt-20"
           />
         ) : (

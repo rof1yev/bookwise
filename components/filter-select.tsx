@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { sorts } from "@/lib/constants";
+import { createQueryString } from "@/lib/utils";
 import { useSearchParams, useRouter } from "next/navigation";
 
 const FilterSelect = () => {
@@ -19,16 +20,12 @@ const FilterSelect = () => {
   const currentSort = searchParams.get("sort") || "";
 
   const onChange = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (value) params.set("sort", value);
-    else params.delete("sort");
-
-    router.push(`?${params.toString()}`);
+    const query = createQueryString(searchParams, "sort", value);
+    router.push(`?${query}`);
   };
 
   return (
-    <div className="bg-[#232839] flex w-full max-w-56 p-2.5 rounded-md flex items-center">
+    <div className="bg-[#232839] flex w-full max-w-56 p-2.5 rounded-md flex items-center ml-auto">
       <span className="text-light-100 text-nowrap font-normal text-base">
         Filter by:
       </span>
