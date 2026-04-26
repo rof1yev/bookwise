@@ -7,6 +7,7 @@ import { auth } from "@/lib/auth";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { getCurrentUser } from "@/services/user";
+import { redirect } from "next/navigation";
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   const session = await auth();
@@ -24,6 +25,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       .set({ lastActivityDate: new Date().toISOString().slice(0, 10) })
       .where(eq(users.id, session?.user?.id as string));
   });
+
 
   return (
     <main className="root-container">

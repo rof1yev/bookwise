@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 import Sidebar from "@/components/admin/sidebar";
-import Header from "@/components/admin/header";
 import { auth } from "@/lib/auth";
 import { getCurrentUser } from "@/services/user";
 import "@/styles/admin.css";
+import Header from "@/components/admin/header";
 
 const AdminLayout = async ({ children }: { children: ReactNode }) => {
   const session = await auth();
@@ -16,7 +16,10 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
     <main className="flex min-h-screen w-full flex-row">
       <Sidebar />
       <div className="admin-container">
-        <Header />
+        <Header
+          title={`Welcome, ${user.fullName}`}
+          subTitle="Monitor all of your projects and tasks here"
+        />
         {children}
       </div>
     </main>

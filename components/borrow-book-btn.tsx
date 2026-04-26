@@ -25,6 +25,7 @@ const BorrowBookBtn = ({
   isLoanedBook,
 }: BorrowBookBtnProps) => {
   const router = useRouter();
+
   const [borrowing, setBorrowing] = useState<boolean>(false);
 
   const handleBorrow = async () => {

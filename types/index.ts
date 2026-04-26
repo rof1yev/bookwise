@@ -13,6 +13,7 @@ export interface Book {
   summary: string;
   isLoanedBook?: boolean;
   createdAt?: Date | null;
+  updatedAt?: Date | null;
 }
 
 export interface BookCoverProps {
@@ -78,7 +79,7 @@ export interface BorrowRecords {
   borrowDate: Date | null;
   dueDate: string;
   returnDate: string | null;
-  status: "BORROWED" | "RETURNED";
+  status: "BORROWED" | "RETURNED" | null;
   createdAt: Date | null;
 }
 
@@ -111,5 +112,11 @@ export interface User {
   status: "PENDING" | "APPROVED" | "REJECTED" | null;
   role: "USER" | "ADMIN" | null;
   lastActivityDate: string | null;
-  cratedAt: Date | null;
+  createdAt: Date | null;
 }
+
+// ROLES
+export type ROLES = "USER" | "ADMIN";
+// STATUS
+export type STATUS = "PENDING" | "APPROVED" | "REJECTED";
+export type BOOK_STATUS = "BORROWED" | "RETURNED";

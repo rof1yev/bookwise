@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "unique_user_book" ON "borrow_records" USING btree ("user_id","book_id");

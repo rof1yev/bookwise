@@ -21,8 +21,8 @@ const MyProfilePage = async () => {
   const user = await getCurrentUser(session?.user?.id as string);
 
   return (
-    <main className="profile w-full flex gap-10 relative">
-      <div className="w-full md:w-1/2 sticky top-10 h-fit">
+    <main className="profile w-full flex flex-col md:flex-row gap-10 relative">
+      <div className="w-full md:w-1/2 md:sticky top-10 h-fit">
         <div className="gradient-blue pt-28 p-10 flex flex-col gap-8 rounded-xl">
           <Image
             src="/images/profile-badge.png"

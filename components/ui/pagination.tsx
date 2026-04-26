@@ -86,7 +86,6 @@ function PaginationPrevious({
 
 function PaginationNext({
   className,
-
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
   return (
