@@ -1,10 +1,8 @@
 import BookList from "@/components/book-list";
 import BookOverview from "@/components/book-overview";
 import BookVideo from "@/components/book-video";
-import { db } from "@/database/drizzle";
-import { books } from "@/database/schema";
 import { auth } from "@/lib/auth";
-import { and, desc, eq, ne } from "drizzle-orm";
+import { getBookDetailsById, getSimilarBooks } from "@/services/books";
 import { redirect } from "next/navigation";
 
 const BooksDetailsPage = async ({
@@ -15,22 +13,10 @@ const BooksDetailsPage = async ({
   const id = (await params).id;
   const session = await auth();
 
-  const [bookDetails] = await db
-    .select()
-    .from(books)
-    .where(eq(books.id, id))
-    .limit(1);
-
+  const bookDetails = await getBookDetailsById(id);
   if (!bookDetails) redirect("/404");
 
-  const similarBooks = await db
-    .select()
-    .from(books)
-    .where(
-      and(eq(books.genre, bookDetails.genre), ne(books.id, bookDetails.id)),
-    )
-    .orderBy(desc(books.rating))
-    .limit(6);
+  const similarBooks = await getSimilarBooks(bookDetails.genre, bookDetails.id);
 
   return (
     <>
@@ -55,13 +41,15 @@ const BooksDetailsPage = async ({
             </div>
           </section>
         </div>
-      <section className="flex-1">
-        <BookList
-          title="Similar Books"
-          books={similarBooks}
-          containerClassName="mt-20"
-        />
-      </section>
+        {similarBooks.length > 0 && (
+          <section className="flex-1">
+            <BookList
+              title="Similar Books"
+              books={similarBooks}
+              containerClassName="mt-20"
+            />
+          </section>
+        )}
       </div>
     </>
   );

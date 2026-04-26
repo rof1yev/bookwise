@@ -4,6 +4,7 @@ import Link from "next/link";
 import BookCover from "./book-cover";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { Book } from "@/types";
 
 const BookCard = ({
   id,

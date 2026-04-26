@@ -10,6 +10,7 @@ import ratelimit from "../ratelimit";
 import { redirect } from "next/navigation";
 import { workflowClient } from "../workflow";
 import config from "../config";
+import { AuthCredentials } from "@/types";
 
 export const signInWithCredentials = async (
   params: Pick<AuthCredentials, "email" | "password">,
@@ -64,10 +65,17 @@ export const signUp = async (params: AuthCredentials) => {
       universityCard,
     });
 
-    await workflowClient.trigger({
-      url: `${config.env.prodApiEndpoint}/api/workflow/onboarding`,
-      body: { email, fullName },
-    });
+    try {
+      await workflowClient.trigger({
+        url:
+          process.env.NODE_ENV === "production"
+            ? `${config.env.prodApiEndpoint}/api/workflow/onboarding`
+            : `${config.env.apiEndpoint}/api/workflow/onboarding`,
+        body: { email, fullName },
+      });
+    } catch (error) {
+      console.error("WORKFLOW TRIGGER Error", error);
+    }
 
     await signInWithCredentials({ email, password });
 

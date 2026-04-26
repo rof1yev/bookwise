@@ -41,7 +41,6 @@ const UserDropDown = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const isMac = navigator.platform.toUpperCase().includes("MAC");
-
       const isMeta = isMac ? e.metaKey : e.ctrlKey;
 
       if (!e.shiftKey || !isMeta) return;
@@ -94,6 +93,7 @@ const UserDropDown = ({ children }: { children: ReactNode }) => {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
+
         <DropdownMenuGroup>
           <DropdownMenuLabel>All</DropdownMenuLabel>
           <DropdownMenuItem onClick={() => router.push("/my-profile")}>

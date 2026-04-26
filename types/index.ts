@@ -1,4 +1,4 @@
-interface Book {
+export interface Book {
   id: string;
   title: string;
   author: string;
@@ -13,29 +13,35 @@ interface Book {
   summary: string;
   isLoanedBook?: boolean;
   createdAt?: Date | null;
+  updatedAt?: Date | null;
 }
 
-interface BookCoverProps {
+export interface BookCoverProps {
   variant?: BookCoverVariant;
   className?: string;
   coverColor: string;
   coverImage: string;
 }
 
-type BookCoverVariant = "extraSmall" | "small" | "medium" | "regular" | "wide";
+export type BookCoverVariant =
+  | "extraSmall"
+  | "small"
+  | "medium"
+  | "regular"
+  | "wide";
 
-interface BookListProps {
+export interface BookListProps {
   title: string;
   books: Book[];
   containerClassName?: string;
 }
 
-interface ImageUploadProps {
+export interface ImageUploadProps {
   value?: string;
   onChange?: (url: string) => void;
 }
 
-interface AuthCredentials {
+export interface AuthCredentials {
   fullName: string;
   email: string;
   password: string;
@@ -43,7 +49,7 @@ interface AuthCredentials {
   universityCard: string;
 }
 
-interface BookParams {
+export interface BookParams {
   title: string;
   author: string;
   genre: string;
@@ -56,34 +62,61 @@ interface BookParams {
   summary: string;
 }
 
-interface PageParamsProps {
+export interface PageParamsProps {
   params?: Record<string, string | undefined | unknown>;
   searchParams?: Record<string, string>;
 }
 
-interface BookBorrowParams {
+export interface BookBorrowParams {
   userId: string;
   bookId: string;
 }
 
-interface BorrowRecords {
+export interface BorrowRecords {
   id: string;
   userId: string;
   bookId: string;
   borrowDate: Date | null;
   dueDate: string;
   returnDate: string | null;
-  status: "BORROWED" | "RETURNED";
+  status: "BORROWED" | "RETURNED" | null;
   createdAt: Date | null;
 }
 
-interface BorrowingBooksListProps {
+export interface BorrowingBooksListProps {
   title: string;
   data: { borrow_record: BorrowRecords; book: Book }[];
   containerClassName?: string;
 }
 
-type GetBooksResponse = {
+// DATA FETCHING
+
+export interface GetBooksResponse {
   data: Book[];
   totalCount: number;
-};
+}
+
+export interface GetBorrowedBookResponse {
+  borrow_records: BorrowRecords;
+  books: Book;
+}
+
+// USER
+export interface User {
+  id: string;
+  fullName: string;
+  email: string;
+  universityId: number;
+  password: string;
+  universityCard: string;
+  status: "PENDING" | "APPROVED" | "REJECTED" | null;
+  role: "USER" | "ADMIN" | null;
+  lastActivityDate: string | null;
+  createdAt: Date | null;
+}
+
+// ROLES
+export type ROLES = "USER" | "ADMIN";
+// STATUS
+export type STATUS = "PENDING" | "APPROVED" | "REJECTED";
+export type BOOK_STATUS = "BORROWED" | "RETURNED";

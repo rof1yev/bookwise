@@ -6,6 +6,7 @@ import config from "@/lib/config";
 import { XIcon } from "lucide-react";
 import { toast } from "sonner";
 import { FILE_IMAGE_MAX_SIZE } from "@/lib/constants";
+import { ImageUploadProps } from "@/types";
 
 const {
   env: {

@@ -12,6 +12,8 @@ export const navigationLinks = [
   },
 ];
 
+export const ROLES = ["admin", "user"];
+
 export const FILE_IMAGE_MAX_SIZE = 5 * 1024 * 1024;
 export const MAX_IMAGE_SIZE = 20 * 1024 * 1024; // 20MB
 export const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB

@@ -1,0 +1,58 @@
+import Filter from "./_components/filter";
+import { db } from "@/database/drizzle";
+import { users } from "@/database/schema";
+import { asc, desc, eq, or, sql, SQL } from "drizzle-orm";
+import Table from "./_components/table";
+
+const sortMap: Record<string, SQL> = {
+  newest: desc(users.createdAt),
+  oldest: asc(users.createdAt),
+};
+
+export default async function AccountRequests({
+  searchParams,
+}: {
+  searchParams: Promise<{ sort?: string; page?: string }>;
+}) {
+  const { sort = "newest", page = 1 } = await searchParams;
+
+  const currentPage = Number(page);
+  const pageSize = 1;
+  const offset = (currentPage - 1) * pageSize;
+
+  const data = await db
+    .select()
+    .from(users)
+    .where(eq(users.status, "PENDING"))
+    .orderBy(sortMap[sort])
+    .limit(pageSize)
+    .offset(offset);
+
+  const countResult = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(users)
+    .where(eq(users.status, "PENDING"));
+
+  const totalCount = countResult[0]?.count ?? 0;
+
+  return (
+    <section className="w-full rounded-2xl bg-white p-7 mt-10">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-xl font-semibold">Account Registration Requests</h2>
+
+        <Filter />
+      </div>
+
+      <div className="mt-7 w-full overflow-hidden">
+        <Table
+          tableClassName="overflow-x-auto mb-8"
+          data={data}
+          sort={sort}
+          totalCount={totalCount}
+          pageSize={pageSize}
+          currentPage={currentPage}
+        />
+      </div>
+    </section>
+  );
+}
