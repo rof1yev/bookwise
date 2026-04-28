@@ -4,14 +4,7 @@ import Image from "next/image";
 import BookCover from "./book-cover";
 import dayjs from "dayjs";
 import { Book, BorrowRecords } from "@/types";
-
-function hexToRgba(hex: string, opacity: number) {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-
-  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-}
+import { hexToRgba } from "@/lib/utils";
 
 export const BorrowingBookCard = ({
   book,
@@ -22,8 +15,6 @@ export const BorrowingBookCard = ({
   isLoanedBook?: boolean;
 }) => {
   const daysLeft = dayjs(borrow_record.dueDate).diff(dayjs(), "day");
-
-  console.log("borrow_record", borrow_record);
 
   const now = dayjs();
   const dueDate = dayjs(borrow_record.dueDate);

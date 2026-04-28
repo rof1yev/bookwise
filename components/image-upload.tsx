@@ -38,7 +38,7 @@ const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
       formData.append("signature", signature);
       formData.append("expire", expire);
       formData.append("token", token);
-      formData.append("folder", "/university-card");
+      formData.append("folder", config.env.imageKit.folderName!);
 
       const res = await fetch(config.env.imageKit.uploadUrl!, {
         method: "POST",

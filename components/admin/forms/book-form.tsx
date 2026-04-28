@@ -10,46 +10,65 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/file-upload";
 import ColorPicker from "../color-picker";
-import { createBook } from "@/lib/admin/actions/book";
+import { createBook, updateBook } from "@/lib/admin/actions/book";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Book } from "@/types";
+import { useState } from "react";
+import { Edit3Icon, PlusCircleIcon } from "lucide-react";
 
 interface Props extends Partial<Book> {
   type?: "create" | "update";
 }
 
 const BookForm = ({ type, ...book }: Props) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof bookSchema>>({
     resolver: zodResolver(bookSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      author: "",
-      genre: "",
-      rating: 1,
-      totalCopies: 1,
-      coverUrl: "",
-      coverColor: "",
-      videoUrl: "",
-      summary: "",
-    },
+    defaultValues:
+      type === "create"
+        ? {
+            title: "",
+            description: "",
+            author: "",
+            genre: "",
+            rating: 1,
+            totalCopies: 1,
+            coverUrl: "",
+            coverColor: "",
+            videoUrl: "",
+            summary: "",
+          }
+        : { ...book },
   });
 
   const onSubmit = async (values: z.infer<typeof bookSchema>) => {
-    const result = await createBook(values);
+    try {
+      setIsLoading(true);
 
-    if (result.success) {
-      toast.success("Successfully", { description: result.message });
-      router.push(`/admin/books/${result.data?.id}`);
-    } else {
-      toast.error("Error", { description: result.message });
+      const result =
+        type === "create"
+          ? await createBook(values)
+          : await updateBook(values, book.id!);
+
+      if (result.success) {
+        toast.success("Successfully", { description: result.message });
+        router.push(`/admin/books/details/${result.data?.id}`);
+      } else toast.error("Error", { description: result.message });
+    } catch (error) {
+      toast.error("Error", { description: "Something went wrong" });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+    <form
+      onSubmit={form.handleSubmit(onSubmit)}
+      className={`space-y-8 ${isLoading ? "opacity-50 pointer-events-none" : ""}`}
+    >
       <FieldGroup>
         <Controller
           name={"title"}
@@ -299,10 +318,16 @@ const BookForm = ({ type, ...book }: Props) => {
       </FieldGroup>
 
       <Button
+        disabled={isLoading}
         type="submit"
-        className="book-form_btn text-white bg-primary-admin hover:bg-primary-admin/80 transition-colors"
+        className="book-form_btn text-white bg-primary-admin hover:bg-primary-admin/80 transition-colors disabled:cursor-not-allowed disabled:bg-primary-admin/30"
       >
-        Add Book to Library
+        {type === "create" ? (
+          <PlusCircleIcon size={18} />
+        ) : (
+          <Edit3Icon size={18} />
+        )}
+        {type === "create" ? "Add Book to Library" : "Edit the Book"}
       </Button>
     </form>
   );

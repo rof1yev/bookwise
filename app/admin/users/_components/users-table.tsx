@@ -82,33 +82,31 @@ const UsersTable = ({
 
   return (
     <div>
-      {data.length > 0 ? (
-        <>
-          <Table className={tableClassName}>
-            <TableHeader className="bg-[#F8F8FF] h-12">
-              <TableRow>
-                <TableHead className="font-normal text-sm">№</TableHead>
-                <TableHead className="font-normal text-sm w-60">Name</TableHead>
-                <TableHead className="font-normal text-sm">
-                  Date Joined
-                </TableHead>
-                <TableHead className="font-normal text-sm">Role</TableHead>
-                <TableHead className="font-normal text-sm">
-                  Books Borrowed
-                </TableHead>
-                <TableHead className="font-normal text-sm">
-                  University ID No
-                </TableHead>
-                <TableHead className="font-normal text-sm">
-                  University ID Card
-                </TableHead>
-                <TableHead className="font-normal text-sm">Status</TableHead>
-                <TableHead className="text-right font-normal text-sm">
-                  Action
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody className="font-medium">
+      <Table className={tableClassName}>
+        <TableHeader className="bg-[#F8F8FF] h-12">
+          <TableRow>
+            <TableHead className="font-normal text-sm">№</TableHead>
+            <TableHead className="font-normal text-sm w-60">Name</TableHead>
+            <TableHead className="font-normal text-sm">Date Joined</TableHead>
+            <TableHead className="font-normal text-sm">Role</TableHead>
+            <TableHead className="font-normal text-sm">
+              Books Borrowed
+            </TableHead>
+            <TableHead className="font-normal text-sm">
+              University ID No
+            </TableHead>
+            <TableHead className="font-normal text-sm">
+              University ID Card
+            </TableHead>
+            <TableHead className="font-normal text-sm">Status</TableHead>
+            <TableHead className="text-right font-normal text-sm">
+              Action
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody className="font-medium">
+          {data.length > 0 ? (
+            <>
               {data.map(({ user, borrowedCount }, i) => (
                 <TableRow key={user.id} className="h-16">
                   <TableCell>{i + 1}</TableCell>
@@ -203,17 +201,26 @@ const UsersTable = ({
                   </TableCell>
                 </TableRow>
               ))}
-            </TableBody>
-          </Table>
-          <Pagination
-            sort={sort}
-            totalCount={totalCount}
-            currentPage={currentPage}
-            pageSize={pageSize}
-          />
-        </>
-      ) : (
-        <></>
+            </>
+          ) : (
+            <TableRow>
+              <TableCell
+                colSpan={7}
+                className="text-center py-10 text-gray-500"
+              >
+                No users found
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      {totalCount > pageSize && (
+        <Pagination
+          sort={sort}
+          totalCount={totalCount}
+          currentPage={currentPage}
+          pageSize={pageSize}
+        />
       )}
     </div>
   );

@@ -41,111 +41,107 @@ const Table = ({
 
   return (
     <div>
-      <>
-        <TableUI className={tableClassName}>
-          <TableHeader className="bg-[#F8F8FF] h-12">
-            <TableRow>
-              <TableHead className="font-normal text-sm w-56">Book</TableHead>
-              <TableHead className="font-normal text-sm w-56">
-                User Requested
-              </TableHead>
-              <TableHead className="font-normal text-sm">Status</TableHead>
-              <TableHead className="font-normal text-sm">
-                Borrowed Date
-              </TableHead>
-              <TableHead className="font-normal text-sm">Return Date</TableHead>
-              <TableHead className="font-normal text-sm">Due Date</TableHead>
-              <TableHead className="text-right font-normal text-sm">
-                Receipt
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody className="font-medium">
-            {data.length > 0 ? (
-              <>
-                {data.map(({ book, borrow, user }) => {
-                  const dueDate = new Date(borrow.createdAt!);
-                  dueDate.setDate(dueDate.getDate() + 7);
+      <TableUI className={tableClassName}>
+        <TableHeader className="bg-[#F8F8FF] h-12">
+          <TableRow>
+            <TableHead className="font-normal text-sm w-56">Book</TableHead>
+            <TableHead className="font-normal text-sm w-56">
+              User Requested
+            </TableHead>
+            <TableHead className="font-normal text-sm">Status</TableHead>
+            <TableHead className="font-normal text-sm">Borrowed Date</TableHead>
+            <TableHead className="font-normal text-sm">Return Date</TableHead>
+            <TableHead className="font-normal text-sm">Due Date</TableHead>
+            <TableHead className="text-right font-normal text-sm">
+              Receipt
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody className="font-medium">
+          {data.length > 0 ? (
+            <>
+              {data.map(({ book, borrow, user }) => {
+                const dueDate = new Date(borrow.createdAt!);
+                dueDate.setDate(dueDate.getDate() + 7);
 
-                  return (
-                    <TableRow
-                      key={borrow.id}
-                      className={cn(
-                        "h-16",
-                        borrow.status === "RETURNED" &&
-                          "bg-green-100/30 hover:bg-green-100/50",
-                        borrow.status === "BORROWED" &&
-                          "bg-sky-100/30 hover:bg-sky-100/50",
-                      )}
-                    >
-                      <TableCell className="w-56">
-                        <div className="flex items-center gap-2 text-wrap truncate">
-                          <BookCover
-                            variant="extraSmall"
-                            coverImage={book?.coverUrl as string}
-                            coverColor={book?.coverColor as string}
-                          />
-                          <p className="line-clamp-2">{book?.title}</p>
-                        </div>
-                      </TableCell>
-                      <TableCell className="w-56">
-                        <div className="flex gap-1.5 items-center">
-                          <Avatar
-                            src=""
-                            fallback={user?.fullName as string}
-                            className="size-10"
-                          />
-                          <div className="flex flex-col">
-                            <h4 className="text-dark-400 font-semibold text-sm">
-                              {user?.fullName}
-                            </h4>
-                            <p className="text-[#64748B] font-normal text-sm">
-                              {user?.email}
-                            </p>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <BorrowStatus
-                          status={borrow.status!}
-                          borrowId={borrow.id}
+                return (
+                  <TableRow
+                    key={borrow.id}
+                    className={cn(
+                      "h-16",
+                      borrow.status === "RETURNED" &&
+                        "bg-green-100/30 hover:bg-green-100/50",
+                      borrow.status === "BORROWED" &&
+                        "bg-sky-100/30 hover:bg-sky-100/50",
+                    )}
+                  >
+                    <TableCell className="w-56">
+                      <div className="flex items-center gap-2 text-wrap truncate">
+                        <BookCover
+                          variant="extraSmall"
+                          coverImage={book?.coverUrl as string}
+                          coverColor={book?.coverColor as string}
                         />
-                      </TableCell>
-                      <TableCell>
-                        {format(borrow.createdAt!, "dd MMM, yyyy")}
-                      </TableCell>
-                      <TableCell>
-                        {format(borrow.dueDate, "dd MMM, yyyy")}
-                      </TableCell>
-                      <TableCell>{format(dueDate, "dd MMM, yyyy")}</TableCell>
-                      <TableCell className="text-right">
-                        <QrCodeIcon className="ml-auto" />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </>
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={7}
-                  className="text-center py-10 text-gray-500"
-                >
-                  No borrow requests yet
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </TableUI>
-        {totalCount > pageSize && (
-          <Pagination
-            sort={sort}
-            totalCount={totalCount}
-            pageSize={pageSize}
-            currentPage={currentPage}
-          />
-        )}
-      </>
+                        <p className="line-clamp-2">{book?.title}</p>
+                      </div>
+                    </TableCell>
+                    <TableCell className="w-56">
+                      <div className="flex gap-1.5 items-center">
+                        <Avatar
+                          src=""
+                          fallback={user?.fullName as string}
+                          className="size-10"
+                        />
+                        <div className="flex flex-col">
+                          <h4 className="text-dark-400 font-semibold text-sm">
+                            {user?.fullName}
+                          </h4>
+                          <p className="text-[#64748B] font-normal text-sm">
+                            {user?.email}
+                          </p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <BorrowStatus
+                        status={borrow.status!}
+                        borrowId={borrow.id}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      {format(borrow.createdAt!, "dd MMM, yyyy")}
+                    </TableCell>
+                    <TableCell>
+                      {format(borrow.dueDate, "dd MMM, yyyy")}
+                    </TableCell>
+                    <TableCell>{format(dueDate, "dd MMM, yyyy")}</TableCell>
+                    <TableCell className="text-right">
+                      <QrCodeIcon className="ml-auto" />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </>
+          ) : (
+            <TableRow>
+              <TableCell
+                colSpan={7}
+                className="text-center py-10 text-gray-500"
+              >
+                No borrow requests yet
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </TableUI>
+      {totalCount > pageSize && (
+        <Pagination
+          sort={sort}
+          totalCount={totalCount}
+          pageSize={pageSize}
+          currentPage={currentPage}
+        />
+      )}
     </div>
   );
 };
