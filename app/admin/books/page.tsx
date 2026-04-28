@@ -21,7 +21,7 @@ export default async function BooksPage({
   const { sort = "newest", page = 1 } = await searchParams;
 
   const currentPage = Number(page);
-  const pageSize = 5;
+  const pageSize = 10;
   const offset = (currentPage - 1) * pageSize;
 
   const data = await db

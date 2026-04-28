@@ -13,7 +13,7 @@ export default async function SearchPage({
   const { q = "", sort = "", page = "1" } = await searchParams;
 
   const currentPage = Number(page);
-  const pageSize = 5;
+  const pageSize = 10;
 
   const isAvailable = sort === "available";
 

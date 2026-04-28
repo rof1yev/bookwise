@@ -42,13 +42,13 @@ const seed = async () => {
       const coverUrl = (await uploadToImageKit(
         book.coverUrl,
         `${book.title}.jpg`,
-        "/books/covers",
+        `${process.env.NEXT_PUBLIC_IMAGEKIT_FOLDER_NAME}/books/covers`,
       )) as string;
 
       const videoUrl = (await uploadToImageKit(
         book.videoUrl,
         `${book.title}.mp4`,
-        "/books/videos",
+        `${process.env.NEXT_PUBLIC_IMAGEKIT_FOLDER_NAME}/books/videos`,
       )) as string;
 
       await db.insert(books).values({

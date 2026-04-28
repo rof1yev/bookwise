@@ -5,7 +5,7 @@ import { users } from "./database/schema";
 import { eq } from "drizzle-orm";
 
 const authRoutes = ["/sign-in", "/sign-up"];
-const protectedRoutes = ["/", "/admin", "/my-profile"];
+const protectedRoutes = ["/", "/admin/*", "/my-profile"];
 
 export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

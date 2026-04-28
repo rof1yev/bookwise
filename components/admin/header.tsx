@@ -10,7 +10,7 @@ const Header = ({ title, subTitle }: { title: string; subTitle: string }) => {
       <div className="w-full flex justify-between items-center">
         <GreetingTitle title={title} description={subTitle} />
 
-        <div className="relative w-full max-w-[450px]">
+        {/* <div className="relative w-full max-w-[450px]">
           <Input
             className="p-3.5 w-full pl-11 h-12"
             placeholder="Search users, books by title, author, or genre."
@@ -19,7 +19,7 @@ const Header = ({ title, subTitle }: { title: string; subTitle: string }) => {
             size={18}
             className="text-light-100 absolute left-4 top-1/2 -translate-y-1/2"
           />
-        </div>
+        </div> */}
       </div>
     </header>
   );

@@ -19,7 +19,7 @@ export default async function AllUsers({
   const { sort = "newest", page = "1" } = await searchParams;
 
   const currentPage = Number(page);
-  const pageSize = 1;
+  const pageSize = 10;
   const offset = (currentPage - 1) * pageSize;
 
   const data = await db
