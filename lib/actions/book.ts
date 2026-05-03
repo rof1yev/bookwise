@@ -3,11 +3,11 @@
 import { db } from "@/database/drizzle";
 import { books, borrowRecords } from "@/database/schema";
 import { and, eq } from "drizzle-orm";
-import dayjs from "dayjs";
 import { BookBorrowParams } from "@/types";
+import { revalidatePath } from "next/cache";
 
 export const borrowBook = async (params: BookBorrowParams) => {
-  const { userId, bookId } = params;
+  const { userId, bookId, dueDate } = params;
 
   try {
     const [book] = await db
@@ -40,8 +40,6 @@ export const borrowBook = async (params: BookBorrowParams) => {
         message: "You have already borrowed this book.",
       };
 
-    const dueDate = dayjs().add(7, "day").toDate().toDateString();
-
     await db.insert(borrowRecords).values({
       userId,
       bookId,
@@ -53,6 +51,8 @@ export const borrowBook = async (params: BookBorrowParams) => {
       .update(books)
       .set({ availableCopies: book.availableCopies - 1 })
       .where(eq(books.id, bookId));
+
+    revalidatePath("/books/:id");
 
     return {
       success: true,

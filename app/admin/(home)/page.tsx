@@ -17,6 +17,7 @@ const AdminMainPage = async () => {
   const borrowRequests = await db
     .select({ borrow: borrowRecords, book: books, user: users })
     .from(borrowRecords)
+    .where(eq(borrowRecords.status, "BORROWED"))
     .innerJoin(books, eq(borrowRecords.bookId, books.id))
     .innerJoin(users, eq(borrowRecords.userId, users.id))
     .limit(3);
@@ -37,13 +38,11 @@ const AdminMainPage = async () => {
       </div>
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-        <div
-          className={cn(
-            "bg-white p-5 rounded-[14px] w-full min-h-full relative overflow-hidden max-h-[400px]",
-          )}
-        >
+        <div className="bg-white p-3 sm:p-5 rounded-[14px] w-full min-h-full relative overflow-hidden max-h-[400px]">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="font-semibold text-xl">Borrow Requests</h3>
+            <h3 className="font-semibold text-base md:text-xl">
+              Borrow Requests
+            </h3>
             <Link href="/admin/borrow-records">
               <Button className="bg-[#F8F8FF] text-primary-admin hover:bg-primary-admin hover:text-white">
                 View all
@@ -56,9 +55,11 @@ const AdminMainPage = async () => {
           {borrowRequests.length > 2 && <LinearGradientBottom />}
         </div>
         {/*  */}
-        <div className="bg-white p-5 md:row-span-2 rounded-[14px] relative h-auto overflow-hidden">
+        <div className="bg-white p-3 sm:p-5 md:row-span-2 rounded-[14px] relative h-auto overflow-hidden">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="font-semibold text-xl">Recently Added Books</h3>
+            <h3 className="font-semibold text-base md:text-xl">
+              Recently Added Books
+            </h3>
             <Button className="bg-[#F8F8FF] text-primary-admin hover:bg-primary-admin hover:text-white">
               View all
             </Button>
@@ -66,9 +67,9 @@ const AdminMainPage = async () => {
           <div className="grid grid-cols-1 gap-3 mt-3">
             <div
               role="button"
-              className="flex items-center bg-[#F8F8FF] rounded-[10px] p-3.5 gap-3.5 group"
+              className="flex items-center bg-[#F8F8FF] rounded-[10px] p-2.5 sm:p-3.5 gap-3.5 group"
             >
-              <div className="bg-white h-12 w-12 rounded-full flex items-center justify-center group-hover:bg-primary-admin transition-all group-hover:text-white">
+              <div className="bg-white h-8 sm:h-12 w-8 sm:w-12 rounded-full flex items-center justify-center group-hover:bg-primary-admin transition-all group-hover:text-white">
                 <PlusIcon size={24} />
               </div>
               <h4 className="font-medium text-dark-400">Add new book</h4>
@@ -78,9 +79,11 @@ const AdminMainPage = async () => {
           <LinearGradientBottom />
         </div>
         {/*  */}
-        <div className="bg-white p-5 rounded-[14px] relative min-h-[150px] h-auto overflow-hidden">
+        <div className="bg-white p-3 sm:p-5 rounded-[14px] relative min-h-[150px] h-auto overflow-hidden">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="font-semibold text-xl">Account Requests</h3>
+            <h3 className="font-semibold text-base md:text-xl">
+              Account Requests
+            </h3>
             <Link href="/admin/account-requests">
               <Button className="bg-[#F8F8FF] text-primary-admin hover:bg-primary-admin hover:text-white">
                 View all

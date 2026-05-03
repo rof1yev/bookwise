@@ -3,6 +3,7 @@
 import { db } from "@/database/drizzle";
 import { books, borrowRecords } from "@/database/schema";
 import { BOOK_STATUS, BookParams } from "@/types";
+import { format } from "date-fns";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -83,7 +84,11 @@ export const changeBookBorrowStatus = async ({
   try {
     await db
       .update(borrowRecords)
-      .set({ status })
+      .set({
+        status,
+        returnDate:
+          status === "RETURNED" ? format(new Date(), "yyyy-MM-dd") : null,
+      })
       .where(eq(borrowRecords.id, borrowId));
 
     revalidatePath("/admin/borrow-records");

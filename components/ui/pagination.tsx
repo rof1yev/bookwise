@@ -55,7 +55,7 @@ function PaginationLink({
       size={size}
       className={cn(
         className,
-        "bg-dark-300 text-white hover:bg-primary size-12 text-[18px]",
+        "bg-dark-300 text-white hover:bg-primary size-9 sm:size-12 text-[18px]",
       )}
     >
       <a
@@ -110,7 +110,7 @@ function PaginationEllipsis({
       variant="default"
       className={cn(
         className,
-        "bg-dark-300 text-white hover:bg-dark-300 size-12 text-[18px] cursor-not-allowed",
+        "bg-dark-300 text-white hover:bg-dark-300s size-9 sm:size-12 text-[18px] cursor-not-allowed",
       )}
       disabled
     >

@@ -23,7 +23,7 @@ const MyProfilePage = async () => {
   return (
     <main className="profile w-full flex flex-col md:flex-row gap-10 relative">
       <div className="w-full md:w-1/2 md:sticky top-10 h-fit">
-        <div className="gradient-blue pt-28 p-10 flex flex-col gap-8 rounded-xl">
+        <div className="gradient-blue !pt-28 p-5  xl:p-10 flex flex-col gap-8 rounded-xl">
           <Image
             src="/images/profile-badge.png"
             alt="Badge"
@@ -31,11 +31,11 @@ const MyProfilePage = async () => {
             height={88}
             className="absolute -top-2 left-1/2 -translate-x-1/2"
           />
-          <div className="flex items-center gap-7">
-            <div className="size-28 bg-[#232839] rounded-full flex justify-center items-center">
+          <div className="flex flex-col sm:flex-row items-center gap-4 xl:gap-7">
+            <div className="size-18 xl:size-28 bg-[#232839] rounded-full flex justify-center items-center">
               <Avatar
                 fallback={getInitials(user.fullName)}
-                className="size-24"
+                className="size-18 xl:size-24"
               />
             </div>
 

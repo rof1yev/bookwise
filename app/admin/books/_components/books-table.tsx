@@ -38,7 +38,7 @@ const BooksTable = ({
       <Table className={tableClassName}>
         <TableHeader className="bg-[#F8F8FF] h-12">
           <TableRow>
-            <TableHead className="font-normal text-sm w-96">Title</TableHead>
+            <TableHead className="font-normal text-sm">Title</TableHead>
             <TableHead className="font-normal text-sm">Author</TableHead>
             <TableHead className="font-normal text-sm">Genre</TableHead>
             <TableHead className="font-normal text-sm">Created At</TableHead>
@@ -58,8 +58,9 @@ const BooksTable = ({
                         variant="extraSmall"
                         coverImage={book.coverUrl}
                         coverColor={book.coverColor}
+                        className="w-"
                       />
-                      {book.title}
+                      <p className="text-nowrap">{book.title}</p>
                     </div>
                   </TableCell>
                   <TableCell className="text-wrap">{book.author}</TableCell>

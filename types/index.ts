@@ -70,6 +70,7 @@ export interface PageParamsProps {
 export interface BookBorrowParams {
   userId: string;
   bookId: string;
+  dueDate: string;
 }
 
 export interface BorrowRecords {

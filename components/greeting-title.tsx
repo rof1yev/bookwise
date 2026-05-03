@@ -9,7 +9,7 @@ const GreetingTitle = ({
 }) => {
   return (
     <div>
-      <h3 className="text-2xl font-semibold text-dark-400">{title}</h3>
+      <h3 className="text-xl md:text-2xl font-semibold text-dark-400">{title}</h3>
       <p className="font-normal text-[#64748B]">{description}</p>
     </div>
   );

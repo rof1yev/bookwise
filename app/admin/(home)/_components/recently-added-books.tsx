@@ -9,7 +9,7 @@ const RecentlyAddedBooks = ({ allBooks }: { allBooks: { book: Book }[] }) => {
       {allBooks.map(({ book }) => (
         <div
           key={book.id}
-          className="rounded-[10px] p-3.5 flex gap-3.5 hover:opacity-80"
+          className="rounded-[10px] flex-col items-center sm:items-start sm:flex-row p-3.5 flex gap-3.5 hover:opacity-80"
         >
           <BookCover
             variant="small"
@@ -17,17 +17,18 @@ const RecentlyAddedBooks = ({ allBooks }: { allBooks: { book: Book }[] }) => {
             coverColor={book.coverColor}
             coverImage={book.coverUrl}
           />
+
           <div className="flex flex-col gap-1">
-            <div className="">
+            <div className="text-center sm:text-start">
               <h4 className="font-semibold text-dark-400">{book.title}</h4>
-              <div className="flex font-normal text-[#64748B] text-sm">
+              <div className="flex font-normal gap-2 text-[#64748B] text-sm">
                 <p>By {book.author}</p>
-                <DotIcon />
+                <DotIcon className="hidden sm:block" />
                 <p>{book.genre}</p>
               </div>
             </div>
 
-            <p className="flex items-center text-xs text-[#3A354E]">
+            <p className="flex justify-center sm:justify-start items-center text-xs text-[#3A354E]">
               <CalendarDaysIcon size={12} className="mr-0.5" />{" "}
               {format(book.createdAt!, "dd MMM, yyyy")}
             </p>

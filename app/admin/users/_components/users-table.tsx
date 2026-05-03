@@ -81,7 +81,7 @@ const UsersTable = ({
   };
 
   return (
-    <div>
+    <>
       <Table className={tableClassName}>
         <TableHeader className="bg-[#F8F8FF] h-12">
           <TableRow>
@@ -222,7 +222,7 @@ const UsersTable = ({
           pageSize={pageSize}
         />
       )}
-    </div>
+    </>
   );
 };
 

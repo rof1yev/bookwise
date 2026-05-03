@@ -5,6 +5,7 @@ import BookCover from "./book-cover";
 import dayjs from "dayjs";
 import { Book, BorrowRecords } from "@/types";
 import { hexToRgba } from "@/lib/utils";
+import { BadgeAlertIcon } from "lucide-react";
 
 export const BorrowingBookCard = ({
   book,
@@ -16,29 +17,34 @@ export const BorrowingBookCard = ({
 }) => {
   const daysLeft = dayjs(borrow_record.dueDate).diff(dayjs(), "day");
 
-  const now = dayjs();
-  const dueDate = dayjs(borrow_record.dueDate);
-  const returnDate = borrow_record.returnDate
-    ? dayjs(borrow_record.returnDate)
+  const now = dayjs().startOf("day");
+  const due = dayjs(borrow_record.dueDate).startOf("day");
+  const returned = borrow_record.returnDate
+    ? dayjs(borrow_record.returnDate).startOf("day")
     : null;
 
-  const referenceDate = returnDate || now;
-  const daysDiff = dueDate.diff(referenceDate, "day");
+  const diff = returned ? returned.diff(due, "day") : now.diff(due, "day");
 
   const getStatusText = () => {
-    if (returnDate) {
-      return daysDiff >= 0
-        ? `Returned on time (${daysDiff} days early)`
-        : `Returned ${Math.abs(daysDiff)} days late`;
-    }
+    if (returned)
+      return diff >= 0
+        ? `Returned on time (${diff} days early)`
+        : `Returned ${Math.abs(diff)} days late`;
 
-    if (daysDiff > 0) return `${daysDiff} days left to due`;
-    if (daysDiff === 0) return "Due today";
-    return `${Math.abs(daysDiff)} days overdue`;
+    if (diff > 0) return `${diff} days overdue`;
+    if (diff === 0) return "Due today";
+    return `${Math.abs(diff)} days left`;
   };
 
   return (
-    <li className="gradient-dark-blue p-4 rounded-md">
+    <li className="gradient-dark-blue p-4 rounded-md relative">
+      {diff > 0 && !returned && (
+        <BadgeAlertIcon
+          size={24}
+          className="text-red-600 absolute -left-2 -top-2"
+        />
+      )}
+
       <div className="flex flex-col">
         <div
           style={{ backgroundColor: hexToRgba(book.coverColor, 0.3) }}
