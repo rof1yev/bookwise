@@ -19,10 +19,7 @@ import { useRouter } from "next/navigation";
 
 const UserDropDown = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
-  const { data } = useSession();
-
-  const name = data?.user?.name ?? "IN";
-  const email = data?.user?.email ?? "";
+  const { data, status } = useSession();
 
   const logout = async () => {
     try {
@@ -68,6 +65,13 @@ const UserDropDown = ({ children }: { children: ReactNode }) => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  const isLoading = status === "loading";
+  if (isLoading) return null;
+
+  const name = data?.user?.name ?? "IN";
+  const email = data?.user?.email ?? "";
+  const isAdmin = data?.user?.role === "ADMIN";
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
@@ -84,16 +88,19 @@ const UserDropDown = ({ children }: { children: ReactNode }) => {
         </div>
 
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>Admin</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => router.push("/admin")}>
-            <LayoutDashboardIcon />
-            Dashboard
-            <DropdownMenuShortcut>⇧⌘D</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-
+        {isAdmin && (
+          <>
+            <DropdownMenuGroup>
+              <DropdownMenuLabel>Admin</DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => router.push("/admin")}>
+                <LayoutDashboardIcon />
+                Dashboard
+                <DropdownMenuShortcut>⇧⌘D</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+          </>
+        )}
         <DropdownMenuGroup>
           <DropdownMenuLabel>All</DropdownMenuLabel>
           <DropdownMenuItem onClick={() => router.push("/my-profile")}>

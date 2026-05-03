@@ -5,6 +5,7 @@ import BookCover from "./book-cover";
 import dayjs from "dayjs";
 import { Book, BorrowRecords } from "@/types";
 import { hexToRgba } from "@/lib/utils";
+import { BadgeAlertIcon } from "lucide-react";
 
 export const BorrowingBookCard = ({
   book,
@@ -36,7 +37,14 @@ export const BorrowingBookCard = ({
   };
 
   return (
-    <li className="gradient-dark-blue p-4 rounded-md">
+    <li className="gradient-dark-blue p-4 rounded-md relative">
+      {diff > 0 && !returned && (
+        <BadgeAlertIcon
+          size={24}
+          className="text-red-600 absolute -left-2 -top-2"
+        />
+      )}
+
       <div className="flex flex-col">
         <div
           style={{ backgroundColor: hexToRgba(book.coverColor, 0.3) }}
