@@ -19,8 +19,8 @@ const ibmPlexSansFont = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "BookWise",
-  description: "",
+  title: "BookWise - University Library System",
+  description: "Manage books, borrow system, and library workflow easily",
   icons: {
     icon: { href: "/favicon.ico", url: "/favicon.ico" },
   },

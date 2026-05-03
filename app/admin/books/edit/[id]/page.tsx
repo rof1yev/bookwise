@@ -1,10 +1,22 @@
+import Link from "next/link";
+import { getBookDetailsById } from "@/services/books";
 import BookForm from "@/components/admin/forms/book-form";
 import { Button } from "@/components/ui/button";
-import { db } from "@/database/drizzle";
-import { books } from "@/database/schema";
-import { eq } from "drizzle-orm";
 import { ArrowLeftIcon } from "lucide-react";
-import Link from "next/link";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const id = (await params).id;
+  const bookDetails = await getBookDetailsById(id);
+
+  return {
+    title: bookDetails.title,
+    description: bookDetails.description,
+  };
+}
 
 const BooksEditPage = async ({
   params,
@@ -13,7 +25,7 @@ const BooksEditPage = async ({
 }) => {
   const id = (await params).id;
 
-  const [bookDetails] = await db.select().from(books).where(eq(books.id, id));
+  const bookDetails = await getBookDetailsById(id);
 
   return (
     <div className="mt-8">

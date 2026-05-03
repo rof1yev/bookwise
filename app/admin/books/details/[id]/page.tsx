@@ -1,13 +1,25 @@
 import Link from "next/link";
-import { db } from "@/database/drizzle";
-import { books } from "@/database/schema";
 import { hexToRgba } from "@/lib/utils";
 import { format } from "date-fns";
-import { eq } from "drizzle-orm";
 import { ArrowLeftIcon, CalendarDaysIcon, Edit3Icon } from "lucide-react";
 import BookCover from "@/components/book-cover";
 import { Button } from "@/components/ui/button";
 import BookVideo from "@/components/book-video";
+import { getBookDetailsById } from "@/services/books";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const id = (await params).id;
+  const bookDetails = await getBookDetailsById(id);
+
+  return {
+    title: bookDetails.title,
+    description: bookDetails.description,
+  };
+}
 
 const BookDetailsPage = async ({
   params,
@@ -16,7 +28,7 @@ const BookDetailsPage = async ({
 }) => {
   const id = (await params).id;
 
-  const [bookDetails] = await db.select().from(books).where(eq(books.id, id));
+  const bookDetails = await getBookDetailsById(id);
 
   return (
     <main className="mt-8">

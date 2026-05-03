@@ -5,6 +5,20 @@ import { auth } from "@/lib/auth";
 import { getBookDetailsById, getSimilarBooks } from "@/services/books";
 import { redirect } from "next/navigation";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const id = (await params).id;
+  const bookDetails = await getBookDetailsById(id);
+
+  return {
+    title: bookDetails.title,
+    description: bookDetails.description,
+  };
+}
+
 const BooksDetailsPage = async ({
   params,
 }: {
