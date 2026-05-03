@@ -25,8 +25,8 @@ const NotFoundState = ({
         height={144}
       />
       <div className="flex flex-col gap-1.5 items-center">
-        <h4 className="font-semibold text-base text-dark-400">{title}</h4>
-        <p className="text-[#64748B] text-sm font-normal">{description}</p>
+        <h4 className="font-semibold text-sm sm:text-base text-dark-400">{title}</h4>
+        <p className="text-[#64748B] text-sm font-normal text-center">{description}</p>
       </div>
     </div>
   );

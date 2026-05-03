@@ -38,7 +38,7 @@ export default async function AllUsers({
   const totalCount = countResult[0]?.count ?? 0;
 
   return (
-    <div className="mt-6 bg-white py-6 px-5 rounded-[14px]">
+    <div className="mt-6 bg-white p-2.5 sm:py-6 sm:px-5 rounded-[14px]">
       <div className="flex items-center justify-between gap-3.5">
         <h3 className="text-dark-400 font-semibold text-xl">All Users</h3>
         <Filter />

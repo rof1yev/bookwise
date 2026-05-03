@@ -31,7 +31,7 @@ const BookDetailsPage = async ({
         <div className="flex flex-col xl:flex-row gap-7">
           <div
             style={{ backgroundColor: hexToRgba(bookDetails.coverColor, 0.3) }}
-            className="flex justify-center items-center rounded-xl py-6 px-20"
+            className="flex justify-center items-center rounded-xl py-6 px-8 sm:px-20"
           >
             <BookCover
               coverColor={bookDetails.coverColor}
@@ -41,14 +41,14 @@ const BookDetailsPage = async ({
             />
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2 sm:gap-4">
             <p className="flex items-center text-[#64748B]">
               Created at: &nbsp;
               <CalendarDaysIcon size={18} />
               &nbsp;
               {format(bookDetails.createdAt!, "dd/MM/yyyy")}
             </p>
-            <h2 className="font-semibold text-dark-400 text-2xl">
+            <h2 className="font-semibold text-dark-400 text-xl sm:text-2xl">
               {bookDetails.title}
             </h2>
             <h3 className="text-[#3A354E] font-semibold">
@@ -67,19 +67,19 @@ const BookDetailsPage = async ({
       </section>
 
       <div className="mt-9 flex gap-10 flex-col xl:flex-row-reverse">
-        <section className="flex flex-col gap-7 w-full xl:w-[400px]">
+        <section className="flex flex-col gap-2 sm:gap-7 w-full xl:w-[400px]">
           <h3 className="text-dark-400 font-semibold">Video</h3>
 
           <div className="w-full xl:w-[400px]">
             <BookVideo src={bookDetails.videoUrl} title={bookDetails.title} />
           </div>
         </section>
-        <section className="flex-col gap-7">
+        <section className="flex-col gap-2 sm:gap-7">
           <h3 className="text-dark-400 font-semibold">Summary</h3>
 
-          <div className="space-y-5 mt-6 text-xl text-[#64748B]">
+          <div className="space-y-5 text-xl text-[#64748B]">
             {bookDetails.summary.split("\n").map((line: string, i: number) => (
-              <p key={i} className="font-normal">
+              <p key={i} className="font-normal text-sm sm:text-base">
                 {line}
               </p>
             ))}
