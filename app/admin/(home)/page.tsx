@@ -17,6 +17,7 @@ const AdminMainPage = async () => {
   const borrowRequests = await db
     .select({ borrow: borrowRecords, book: books, user: users })
     .from(borrowRecords)
+    .where(eq(borrowRecords.status, "BORROWED"))
     .innerJoin(books, eq(borrowRecords.bookId, books.id))
     .innerJoin(users, eq(borrowRecords.userId, users.id))
     .limit(3);
